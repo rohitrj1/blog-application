@@ -2,10 +2,9 @@ package com.blog.services.Impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.blog.entities.User;
 import com.blog.exceptions.ResourceNotFoundException;
 import com.blog.payloads.UserDto;
@@ -17,6 +16,9 @@ public class UserSrviceImpl implements UserService {
 	
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -59,7 +61,19 @@ public class UserSrviceImpl implements UserService {
 		this.userRepo.delete(user);
 	}
 	
+	
 	private User dtoToUser(UserDto userDto) {
+		User user = this.modelMapper.map(userDto, User.class);
+		return user;
+	}
+	
+	public UserDto userToDto(User user) {
+		UserDto userDto = this.modelMapper.map(user, UserDto.class);
+		return userDto;
+	}
+	
+	
+/*	private User dtoToUser(UserDto userDto) {
 		User user = new User();
 		user.setId(userDto.getId());
 		user.setName(userDto.getName());
@@ -78,5 +92,6 @@ public class UserSrviceImpl implements UserService {
 		userDto.setAbout(user.getAbout());
 		return userDto;
 	}
+*/
 
 }
