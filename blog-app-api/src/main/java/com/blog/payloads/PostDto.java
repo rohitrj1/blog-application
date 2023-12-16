@@ -1,6 +1,9 @@
 package com.blog.payloads;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 
 
 import jakarta.persistence.Column;
@@ -29,5 +32,5 @@ public class PostDto {
 	
 	private UserDto user;
 	
-
+	private Set<CommentDto> comment =new HashSet<>();
 }
