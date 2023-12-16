@@ -21,7 +21,7 @@ public class PostDto {
 	@Column(name ="content" ,length = 1000)
 	private String content;
 	
-	private String imageName ="deafult.jpg";
+	private String imageName;
 	
 	private Date addedDate;
 	
