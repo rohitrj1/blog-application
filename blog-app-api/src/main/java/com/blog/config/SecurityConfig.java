@@ -3,6 +3,7 @@ package com.blog.config;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.blog.security.JwtAuthenticationEntryPoint;
 import com.blog.security.JwtAuthenticationFilter;
@@ -42,7 +44,7 @@ public class SecurityConfig {
 			"/swagger-resources/**",
 			"/swagger-ui/**",
 			"/webjars/**",
-			"https://blog-application-production-3256.up.railway.app/**"
+			"http://blog-application-production-3256.up.railway.app/**"
 			};
 
 	   @Autowired
@@ -95,16 +97,25 @@ public class SecurityConfig {
 //	}
 	
 	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowCredentials(true);
-	    configuration.setAllowedOrigins(Arrays.asList("*"));
-	    configuration.setAllowedMethods(Arrays.asList("*"));
-	    configuration.setAllowedHeaders(Arrays.asList("*"));
+	public FilterRegistrationBean<CorsFilter> coresFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.addAllowedOriginPattern("*");
+		corsConfiguration.addAllowedHeader("Authorization");
+		corsConfiguration.addAllowedHeader("Content-Type");
+		corsConfiguration.addAllowedHeader("Accept");
+		corsConfiguration.addAllowedMethod("POST");
+		corsConfiguration.addAllowedMethod("GET");
+		corsConfiguration.addAllowedMethod("DELETE");
+		corsConfiguration.addAllowedMethod("PUT");
+		corsConfiguration.addAllowedMethod("OPTIONS");
+		corsConfiguration.setMaxAge(3000L);
+		source.registerCorsConfiguration("/**", corsConfiguration);
+		FilterRegistrationBean<CorsFilter> bean =new FilterRegistrationBean<CorsFilter>(new CorsFilter(source));
+		return bean;
 	}
+
 
     @Bean
 	public PasswordEncoder passwordEncoder() {
