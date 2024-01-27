@@ -17,10 +17,13 @@ import com.blog.config.AppConstants;
 import com.blog.entities.Role;
 import com.blog.repository.RoleRepo;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 
 
 
 
+@OpenAPIDefinition(servers = {@Server(url = "${server.servlet.context-path}", description = "https://blog-application-production-3256.up.railway.app")})
 
 @SpringBootApplication
 public class BlogAppApiApplication implements CommandLineRunner{

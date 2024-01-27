@@ -29,7 +29,6 @@ import com.blog.services.UserService;
 
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 	
