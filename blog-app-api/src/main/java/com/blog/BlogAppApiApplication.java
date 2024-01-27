@@ -22,7 +22,6 @@ import com.blog.repository.RoleRepo;
 
 
 @SpringBootApplication
-@CrossOrigin
 public class BlogAppApiApplication implements CommandLineRunner{
 	
 	@Autowired
