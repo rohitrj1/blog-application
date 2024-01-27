@@ -58,8 +58,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         //configuration
-        http.csrf(AbstractHttpConfigurer::disable).
-        	
+        http.csrf(withDefaults()).
+        	cors(withDefaults()).
                 authorizeHttpRequests(auth -> auth
                 .requestMatchers(PUBLIC_URL).permitAll()
 //                        .requestMatchers(HttpMethod.GET).permitAll()
@@ -94,16 +94,16 @@ public class SecurityConfig {
 
 //	}
 	
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.setAllowedOrigins(Arrays.asList("*"));
-	    configuration.setAllowedMethods(Arrays.asList("*"));
-	    configuration.setAllowedHeaders(Arrays.asList("*"));
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
+//	@Bean
+//	CorsConfigurationSource corsConfigurationSource() {
+//		CorsConfiguration configuration = new CorsConfiguration();
+//	    configuration.setAllowedOrigins(Arrays.asList("*"));
+//	    configuration.setAllowedMethods(Arrays.asList("*"));
+//	    configuration.setAllowedHeaders(Arrays.asList("*"));
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		source.registerCorsConfiguration("/**", configuration);
+//		return source;
+//	}
 
     @Bean
 	public PasswordEncoder passwordEncoder() {
