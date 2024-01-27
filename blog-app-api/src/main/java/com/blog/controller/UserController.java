@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,18 +17,21 @@ import com.blog.payloads.ApiResponse;
 import com.blog.payloads.UserDto;
 import com.blog.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "UserController" , description = "Rest APIs related to perform user operation !!")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
 	// Post-create users
-	@PostMapping("/")
+	@PostMapping("/signUp")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		UserDto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto , HttpStatus.CREATED);
@@ -35,6 +39,7 @@ public class UserController {
 	
 	// Get all users
 	@GetMapping("/")
+	@Operation(summary = "get all users")
 	public ResponseEntity<List<UserDto>> getAllUserList(){
 		return ResponseEntity.ok(this.userService.getAllUser());
 	}
@@ -55,6 +60,7 @@ public class UserController {
 	
 	
 	//Delete users
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<?> deletedUser(@PathVariable Integer userId){
 		
