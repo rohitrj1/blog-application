@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 
 
-@OpenAPIDefinition(servers = {@Server(url = "${server.servlet.context-path}", description = "https://blog-application-production-3256.up.railway.app")})
+@OpenAPIDefinition(servers = {@Server(url = "/", description = "https://blog-application-production-3256.up.railway.app")})
 
 @SpringBootApplication
 public class BlogAppApiApplication implements CommandLineRunner{
