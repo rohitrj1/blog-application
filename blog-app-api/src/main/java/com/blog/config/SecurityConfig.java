@@ -41,7 +41,8 @@ public class SecurityConfig {
 			"/v2/api-docs/**",
 			"/swagger-resources/**",
 			"/swagger-ui/**",
-			"/webjars/**"
+			"/webjars/**",
+			"https://blog-application-production-3256.up.railway.app/**"
 			};
 
 	   @Autowired
@@ -59,7 +60,6 @@ public class SecurityConfig {
 
         //configuration
         http.csrf(c->c.disable()).
-        	cors(c->c.and()).
                 authorizeHttpRequests(auth -> auth
                 .requestMatchers(PUBLIC_URL).permitAll()
 //                        .requestMatchers(HttpMethod.GET).permitAll()
