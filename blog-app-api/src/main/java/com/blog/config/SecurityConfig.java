@@ -1,5 +1,7 @@
 package com.blog.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.blog.security.JwtAuthenticationEntryPoint;
 import com.blog.security.JwtAuthenticationFilter;
@@ -51,7 +56,7 @@ public class SecurityConfig {
 
         //configuration
         http.csrf(AbstractHttpConfigurer::disable).
-                cors(AbstractHttpConfigurer::disable).
+                cors(cors-> cors.configurationSource(corsConfigurationSource())).
                 authorizeHttpRequests(auth->auth
                         .requestMatchers(PUBLIC_URL).permitAll()
 //                        .requestMatchers(HttpMethod.GET).permitAll()
@@ -83,7 +88,18 @@ public class SecurityConfig {
 //	@Bean
 //	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //		auth.userDetailsService(this.customUserDetailsService).passwordEncoder(passwordEncoder());
+
 //	}
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("https://example.com"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
     @Bean
 	public PasswordEncoder passwordEncoder() {
