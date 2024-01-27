@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.blog.config.AppConstants;
 import com.blog.entities.Role;
@@ -21,6 +22,7 @@ import com.blog.repository.RoleRepo;
 
 
 @SpringBootApplication
+@CrossOrigin
 public class BlogAppApiApplication implements CommandLineRunner{
 	
 	@Autowired
